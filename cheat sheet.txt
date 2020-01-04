@@ -261,3 +261,19 @@ print((loan_data['Monthly Debt']).mean())
 print((loan_data['Monthly Debt']).median())
 print((loan_data['Monthly Debt']).max())
 
+--------how to do Z-score standardization---------------------
+
+# Subset features
+numeric_cols = loan_data.select_dtypes(include=[np.number])
+categoric_cols = loan_data.select_dtypes(include=[object])
+
+# Instantiate
+scaler = StandardScaler()
+
+# Fit and transform, convert to DF
+numeric_cols_scaled = scaler.fit_transform(numeric_cols)
+numeric_cols_scaledDF = pd.DataFrame(numeric_cols_scaled, columns=numeric_cols.columns)
+
+# Concatenate categoric columns to scaled numeric columns
+final_DF = pd.concat([numeric_cols_scaledDF, categoric_cols], axis=1)
+print(final_DF.head())
