@@ -1,3 +1,7 @@
+Preprocessing steps in order
+
+Missing --> Transform -- Outlier --> Scaling
+
 df.rename(columns = {‘temperature’: ‘temp’, ‘event’:’eventtype’}) -- how to rename columns in a dataframe
 
 df[df.event.isin([‘Rain’,’Sunny’])] -- how to filter Data by multiple categories
@@ -206,4 +210,54 @@ imp_mean = SimpleImputer(strategy='mean') -- use strategy='most_frequent' to imp
 loans_imp_mean = imp_mean.fit_transform(numeric_cols)
 
 loans_imp_meanDF = pd.DataFrame(loans_imp_mean, columns=numeric_cols.columns)
+
+
+----------------Data outliers and scaling---------------------
+
+# Print: before dropping
+print(numeric_cols.mean())
+print(numeric_cols.median())
+print(numeric_cols.max())
+
+# Create index of rows to keep
+idx = (np.abs(stats.zscore(numeric_cols)) < 3).all(axis=1)
+
+# Concatenate numeric and categoric subsets
+ld_out_drop = pd.concat([numeric_cols.loc[idx], categoric_cols.loc[idx]], axis=1)
+
+# Print: after dropping
+print(ld_out_drop.mean())
+print(ld_out_drop.median())
+print(ld_out_drop.max())
+
+
+# Print: before winsorize
+print((loan_data['Monthly Debt']).mean())
+print((loan_data['Monthly Debt']).median())
+print((loan_data['Monthly Debt']).max())
+
+# Winsorize numeric columns
+debt_win = mstats.winsorize(loan_data['Monthly Debt'], limits=[0.05, 0.05])
+
+# Convert to DataFrame, reassign column name
+debt_out = pd.DataFrame(debt_win, columns=['Monthly Debt'])
+
+# Print: after winsorize
+print(debt_out.mean())
+print(debt_out.median())
+print(debt_out.max())
+
+
+# Print: before replace with median
+print((loan_data['Monthly Debt']).mean())
+print((loan_data['Monthly Debt']).median())
+print((loan_data['Monthly Debt']).max())
+
+# Find median
+median = loan_data.loc[loan_data['Monthly Debt'] < 2120, 'Monthly Debt'].median()
+loan_data['Monthly Debt'] = np.where(loan_data['Monthly Debt'] > 2120, median, loan_data['Monthly Debt'])
+
+print((loan_data['Monthly Debt']).mean())
+print((loan_data['Monthly Debt']).median())
+print((loan_data['Monthly Debt']).max())
 
