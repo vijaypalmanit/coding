@@ -4,7 +4,7 @@ df[df.event.isin([‘Rain’,’Sunny’])] -- how to filter Data by multiple ca
 
 df.select_dtypes(include=['float64', 'int64']) -- how to select dataframe with specific datatypes
 
-df.select_dtypes(ixclude=['object'])
+df.select_dtypes(exclude=['object'])
 
 data.salary.cat.reorder_categories(['low','medium','high'])   -- how to reorder categories
 
@@ -122,5 +122,58 @@ startswith(<substring>), endswith(<substring>), contains(<substring>) checks for
 
 ---------------preparing for machine learning interview questions in python------
 
+df.dropna(axis='rows', thresh=3) --the thresh parameter lets you specify a minimum number of non-null values for the row/column to be kept:
+
+dff.fillna(dff.mean()) 
+          A         B         C
+0  0.271860 -0.424972  0.567020
+1  0.276232 -1.087401 -0.673690
+2  0.113648 -1.478427  0.524988
+3 -0.140857  0.577046 -1.715002
+4 -0.140857 -0.401419 -1.157892
+5 -1.344312 -0.401419 -0.293543
+6 -0.109050  1.643563 -0.293543
+7  0.357021 -0.674600 -0.293543
+8 -0.968914 -1.294524  0.413738
+9  0.276662 -0.472035 -0.013960
 
 
+In [57]: df
+Out[57]: 
+   one       two     three
+a  NaN -0.282863 -1.509059
+c  NaN  1.212112 -0.173215
+e  NaN  0.000000  0.000000
+f  NaN  0.000000  0.000000
+h  NaN -0.706771 -1.039575
+
+In [58]: df.dropna(axis=0)
+Out[58]: 
+Empty DataFrame
+Columns: [one, two, three]
+Index: []
+
+In [59]: df.dropna(axis=1)
+Out[59]: 
+        two     three
+a -0.282863 -1.509059
+c  1.212112 -0.173215
+e  0.000000  0.000000
+f  0.000000  0.000000
+h -0.706771 -1.039575
+
+
+# for each column, get value counts in decreasing order and take the index (value) of most common class
+>colors
+      X1     X2
+0    NaN  Green
+1    Red  Green
+2   Blue    Red
+3    Red   Blue
+4    NaN  Green
+5    Red   Blue
+6  Green    NaN
+7    NaN    Red
+8   Blue  Green
+9    Red    NaN
+colors = colors.apply(lambda x: x.fillna(x.value_counts().index[0])) ---impute with Most Common Class in each column
