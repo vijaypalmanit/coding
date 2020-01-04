@@ -4,6 +4,8 @@ df[df.event.isin([‘Rain’,’Sunny’])] -- how to filter Data by multiple ca
 
 df.select_dtypes(include=['float64', 'int64']) -- how to select dataframe with specific datatypes
 
+df.select_dtypes(include=[np.number])
+
 df.select_dtypes(exclude=['object'])
 
 data.salary.cat.reorder_categories(['low','medium','high'])   -- how to reorder categories
@@ -177,3 +179,31 @@ h -0.706771 -1.039575
 8   Blue  Green
 9    Red    NaN
 colors = colors.apply(lambda x: x.fillna(x.value_counts().index[0])) ---impute with Most Common Class in each column
+
+>colors
+
+      X1     X2
+0    Red  Green
+1    Red  Green
+2   Blue    Red
+3    Red   Blue
+4    Red  Green
+5    Red   Blue
+6  Green  Green
+7    Red    Red
+8   Blue  Green
+9    Red  Green
+
+
+------ Use of simple imputer to impute missing values---------
+
+from sklearn.impute import SimpleImputer
+
+numeric_cols = loan_data.select_dtypes(include=[np.number])
+
+imp_mean = SimpleImputer(strategy='mean') -- use strategy='most_frequent' to impute with mode
+
+loans_imp_mean = imp_mean.fit_transform(numeric_cols)
+
+loans_imp_meanDF = pd.DataFrame(loans_imp_mean, columns=numeric_cols.columns)
+
