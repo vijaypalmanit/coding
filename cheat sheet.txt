@@ -281,21 +281,21 @@ print(final_DF.head())
 
 -----------Regression feature selection---------------------
 
-Benifit Selecting the correct feature:
--Reduces Overfitting
--Reduces noise
--Improves accuracy
--Increase Interpretability
--Reduces training time
+Benifit of Selecting the correct feature:
+->Reduces Overfitting
+->Reduces noise
+->Improves accuracy
+->Increase Interpretability
+->Reduces training time
 
-Feature selection methods
+-Feature selection methods:
 Filter: Rank features based on statistical performance
 Wrapper: Use an ML method to evaluate performance
 Embedded: Iterative modeltraining to extract features
 Feature importance:tree-based ML models
 
 
-Compare and contrast methods:
+-Compare and contrast methods:
 
 Method            |Use an ML model | Select best subset | Can overt
 --------------------------------------------------------------------
@@ -314,7 +314,7 @@ Categorical      |  ANOVA                 | Chi-Square
 --------------------------------------------------------		
 
 
-Wrapper methods
+-Wrapper methods
 1. Forward selection (LARS-least angle regression)
 		Starts with no features, adds one at a time
 2. Backward elimination
@@ -324,13 +324,25 @@ Wrapper methods
 		RFECV	
 
 
-Embedded methods:
+-Embedded methods:
 1. Lasso Regression
 2. Ridge Regression
 3. ElasticNet	
 
 
-Tree-based feature importance methods:
+-Tree-based feature importance methods:
 Random Forest --> sklearn.ensemble.RandomForestRegressor
 Extra Trees --> sklearn.ensemble.ExtraTreesRegressor
 After model t --> tree_mod.feature_importances_	
+
+
+-Feature selection through feature importance:
+
+from sklearn.ensemble import ExtraTreesRegressor,.RandomForestRegressor
+
+xt_mod = ExtraTreesRegressor()  #or .RandomForestRegressor
+
+xt_mod.fit(X, y)
+
+print(diabetes.columns)
+print(xt_mod.feature_importances_)

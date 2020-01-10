@@ -17,3 +17,10 @@ df['month'] = pd.cut(df.day.astype(np.int64)//10**9,
                    labels=bned_months)
 
 print(df)
+
+
+from tkinter import Tk
+from tkinter.filedialog import askopenfilename
+
+Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
+filelocation = askopenfilename() # open the dialog GUI
