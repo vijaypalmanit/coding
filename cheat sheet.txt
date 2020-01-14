@@ -1,6 +1,6 @@
 Preprocessing steps in order
 
-Missing --> Transform -- Outlier --> Scaling
+Correlated --> Missing --> Transform -- Outlier --> Scaling --> Create Dummies
 
 df.rename(columns = {‘temperature’: ‘temp’, ‘event’:’eventtype’}) -- how to rename columns in a dataframe
 
@@ -182,7 +182,7 @@ h -0.706771 -1.039575
 7    NaN    Red
 8   Blue  Green
 9    Red    NaN
-colors = colors.apply(lambda x: x.fillna(x.value_counts().index[0])) ---impute with Most Common Class in each column
+colors = colors.apply(lambda x: x.fillna(x.value_counts().index[0])) ---impute with Most Common (mode) Class in each column
 
 >colors
 
@@ -346,3 +346,19 @@ xt_mod.fit(X, y)
 
 print(diabetes.columns)
 print(xt_mod.feature_importances_)
+
+
+-Regression:regularization
+
+Regularization algorithms
+->Ridge regression
+->Lasso regression
+->ElasticNet regression
+
+
+----------------------------------------------------
+#scatterplot for selected columns (defined in cols) scatter plot for the variables which are strongly correlated
+sns.set()
+cols = ['SalePrice', 'OverallQual', 'GrLivArea', 'GarageCars','GarageArea' ,'TotalBsmtSF', 'FullBath', 'YearBuilt','TotRmsAbvGrd']
+sns.pairplot(train_df[cols], size = 2.5)
+plt.show();
