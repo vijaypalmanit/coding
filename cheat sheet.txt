@@ -362,3 +362,57 @@ sns.set()
 cols = ['SalePrice', 'OverallQual', 'GrLivArea', 'GarageCars','GarageArea' ,'TotalBsmtSF', 'FullBath', 'YearBuilt','TotRmsAbvGrd']
 sns.pairplot(train_df[cols], size = 2.5)
 plt.show();
+
+----------------------------------------------------
+#how to import xgboost
+from xgboost import XGBClassifier
+xgb = XGBClassifier(random_state=123, learning_rate=0.1, n_estimators=10, max_depth=3)
+
+
+---------------------------------------------------------
+#How to fit PCA
+
+# Import module
+from sklearn.decomposition import PCA
+X = diabetes.drop('progression', axis=1)
+y = diabetes['progression']
+pca = PCA(n_components=3)
+# Fit and transform
+principalComponents = pca.fit_transform(X)
+# Print ratio of variance explained
+print(pca.explained_variance_ratio_)
+
+#How to fit svd
+
+# Import module
+from sklearn.decomposition import TruncatedSVD
+X = diabetes.drop('progression', axis=1)
+y = diabetes['progression']
+
+svd = TruncatedSVD(n_components=3)
+principalComponents = svd.fit_transform(X)
+
+# Print ratio of variance explained
+print(svd.explained_variance_ratio_)
+
+
+------------------How to perform kfold cross validation----------
+
+from sklearn.cross_validation import KFold
+
+  kf = KFold(data.shape[0], n_folds=5)
+  error = []
+  for train, test in kf:
+    # Filter training data
+    train_predictors = (data[predictors].iloc[train,:])
+    
+    # The target we're using to train the algorithm.
+    train_target = data[outcome].iloc[train]
+    
+    # Training the algorithm using the predictors and target.
+    model.fit(train_predictors, train_target)
+    
+    #Record error from each cross-validation run
+    error.append(model.score(data[predictors].iloc[test,:], data[outcome].iloc[test]))
+ 
+  print ("Cross-Validation Score : %s" % "{0:.3%}".format(np.mean(error)))
