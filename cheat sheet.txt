@@ -416,3 +416,24 @@ from sklearn.cross_validation import KFold
     error.append(model.score(data[predictors].iloc[test,:], data[outcome].iloc[test]))
  
   print ("Cross-Validation Score : %s" % "{0:.3%}".format(np.mean(error)))
+  
+  
+--------------------How to create data frame using faker------------------------------------
+from faker import Faker
+import pandas as pd
+fk=Faker()
+
+profiles = []
+
+for _ in range(5):
+	profile.append(fk.profile())
+	
+mat=[]
+
+ for i in profiles:
+     a=[]
+     for key,value in i.items():
+         a.append(value)
+     mat.append(a)	
+	 
+df = pd.DataFrame(mat,columns=list(profiles[0].keys))	 
