@@ -437,3 +437,48 @@ mat=[]
      mat.append(a)	
 	 
 df = pd.DataFrame(mat,columns=list(profiles[0].keys))	 
+
+----------------------------matplotlib--------------------------------------------------------
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig = plt.figure()
+
+ax = fig.add_subplot(111)
+
+ax.scatter(np.linspace(0, 1, 5), np.linspace(0, 5, 5))
+
+plt.show()
+
+
+#
+import matplotlib.pyplot as plt
+
+fig = plt.figure(figsize=(20,10))
+ax1 = fig.add_subplot(121)
+ax2 = fig.add_subplot(122)
+
+# or replace the three lines of code above by the following line: 
+#fig, (ax1, ax2) = plt.subplots(1,2, figsize=(20,10))
+
+# Plot the data
+ax1.bar([1,2,3],[3,4,5])
+ax2.barh([0.5,1,2.5],[0,1,2])
+
+# Show the plot
+plt.show()
+
+
+# Import `pyplot` from `matplotlib`
+import matplotlib.pyplot as plt
+
+fig = plt.figure()
+ax1 = fig.add_subplot(131)
+ax2 = fig.add_subplot(132)
+ax3 = fig.add_subplot(133)
+ax1.bar([1,2,3],[3,4,5])
+ax2.barh([0.5,1,2.5],[0,1,2])
+ax2.axhline(0.45)
+ax1.axvline(0.65)
+ax3.scatter(x,y)
+plt.show()
