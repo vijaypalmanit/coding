@@ -1,5 +1,6 @@
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
+from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix,accuracy_score
 from sklearn.metrics import f1_score,recall_score,roc_auc_score,roc_curve,auc
@@ -55,3 +56,41 @@ x_train,x_test,y_train,y_test = train_test_split(x,y,test_size=0.2,random_state=
 
 sm = SMOTE(random_state=1, ratio=1.0)
 x_train, y_train = sm.fit_sample(x_train, y_train)
+
+##PCA
+
+# Separate input features and target
+x = df_with_dummies.drop('chargeback',axis=1)
+y= df_with_dummies['chargeback']
+
+# Lets do scaling first
+from sklearn.preprocessing import MinMaxScaler
+scaled_x = MinMaxScaler().fit(x).transform(x)
+
+# Apply PCA
+from sklearn.decomposition import PCA
+pca=PCA(n_components=12)
+pca.fit(scaled_x)
+pca_x=pca.transform(scaled_x)
+# setting up testing and training sets
+x_train,x_test,y_train,y_test = train_test_split(pca_x,y,test_size=0.2,random_state=1)
+
+sm = SMOTE(random_state=1, ratio=1.0)
+x_train, y_train = sm.fit_sample(x_train, y_train)
+
+from sklearn.ensemble import GradientBoostingClassifier
+
+gbm = GradientBoostingClassifier(n_estimators=100, learning_rate=1.0,max_depth=1, random_state=0).fit(x_train, y_train)
+
+# Grid search cross validation
+from sklearn.model_selection import GridSearchCV
+from sklearn.linear_model import LogisticRegression
+
+grid={"C":np.logspace(-3,3,7), "penalty":["l1","l2"]} # l1 lasso l2 ridge
+logreg=LogisticRegression(solver='liblinear')
+
+logreg_cv=GridSearchCV(logreg,grid,cv=10)
+logreg_cv.fit(x_train,y_train)
+
+print("tuned hpyerparameters :(best parameters) ",logreg_cv.best_params_)
+print("accuracy :",logreg_cv.best_score_)
