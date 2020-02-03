@@ -49,5 +49,5 @@ while i <3 or j<3:
   #print(path)
 print('\nThe route is:\n')
 print(route)
-print('\route with values picked:\n')
+print('\n route with values picked:\n')
 print(fm)
