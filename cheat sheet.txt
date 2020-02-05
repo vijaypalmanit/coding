@@ -742,3 +742,72 @@ C23 = A23*B23
 # Print the tensors C1 and C23
 print('C1: {}'.format(C1.numpy()))
 print('C23: {}'.format(C23.numpy()))
+
+from tensorflow import matmul, constant
+# Define features, params, and bill as constants
+features = constant([[2, 24], [2, 26], [2, 57], [1, 37]])
+params = constant([[1000], [150]])
+bill = constant([[3913], [2682], [8617], [64400]])
+
+billpred = matmul(features,params)
+# Compute and print the error
+error = bill - billpred
+print(error.numpy())
+
+# Reshape the grayscale image tensor into a vector
+gray_vector = reshape(gray_tensor, (784, 1))
+# Reshape the color image tensor into a vector
+color_vector = reshape(color_tensor, (2352, 1))
+
+from tensorflow import GradientTape,multiply,Variable
+def compute_gradient(x0):
+  	# Define x as a variable with an initial value of x0
+	x = Variable(x0)
+	with GradientTape() as tape:
+		tape.watch(x)
+        # Define y using the multiply operation
+		y = multiply(x,x)
+    # Return the gradient of y with respect to x
+	return tape.gradient(y, x).numpy()
+
+# Compute and print gradients at x = -1, 1, and 0
+print(compute_gradient(-1.0))
+print(compute_gradient(1.0))
+print(compute_gradient(0.0))
+
+from tensorflow import reshape,matmul,reduce_sum
+model = reshape(model, (3, 1))
+output = matmul(letter, model)
+
+# Sum over output and print prediction using the numpy method
+prediction = reduce_sum(output,0)
+print(prediction.numpy())
+
+# Import numpy and tensorflow with their standard aliases
+import numpy as np
+import tensorflow as tf
+# Use a numpy array to define price as a 32-bit float
+price = np.array(housing['price'], np.float32)
+# Define waterfront as a Boolean using cast
+waterfront = tf.cast(housing['waterfront'], tf.bool)
+# Print price and waterfront
+print(price)
+print(waterfront)
+
+
+from tensorflow import keras,Variable,float32
+# Initialize a variable named scalar
+scalar = Variable(1.0, float32)
+# Define the model
+def model(scalar, features = features):
+  	return scalar * features
+
+# Define a loss function
+def loss_function(scalar, features = features, targets = targets):
+	# Compute the predicted values
+	predictions = model(scalar, features)
+    
+	# Return the mean absolute error loss
+	return keras.losses.mae(targets, predictions)
+# Evaluate the loss function and print the loss
+print(loss_function(scalar).numpy())
