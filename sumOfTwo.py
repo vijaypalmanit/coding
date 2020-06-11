@@ -12,3 +12,8 @@ target= -7
 
 print(sumOfTwo(a,b,target))
 	
+	
+	
+	status=active from subscription
+	
+	store_id/gateway_config
