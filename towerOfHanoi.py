@@ -18,8 +18,21 @@ def hanoi(n,frm,via,to):
         total_move+=1
         hanoi(n-1,via,frm,to)
     
-hanoi(4,'A','B','C')
+hanoi(3,'A','B','C')
 print(f'---------------------\ntotal move required here are :{total_move}')    
     
     
 
+# 1   1
+# 2   2+1
+# 3   3+4
+# 4   4+11
+
+# n n+
+
+# def move_hanoi_needed(n):
+#     if n==0:
+#         return n
+#     return n + move_hanoi_needed(n-1)
+
+# print(move_hanoi_needed(3))
